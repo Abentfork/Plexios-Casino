@@ -1,103 +1,124 @@
-# Plexios Casino: Online Casino Demo
+# 🎰 Plexios Casino: Demo de Casino Online
 
-## Overview
-Plexios Casino is an educational online casino demo featuring three games:
-- Slot
-- Roulette
-- Blackjack
+[![Estado del Proyecto](https://img.shields.io/badge/Estado-En%20Desarrollo-orange?style=for-the-badge)](https://github.com/Abentfork/proyecto-final)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](https://opensource.org/licenses/MIT)
+[![Uso de Stripe](https://img.shields.io/badge/Pagos-Stripe%20(Test%20Mode)-informational?style=for-the-badge&logo=stripe&logoColor=white)](https://stripe.com)
 
-The project uses **Stripe in test mode** for simulated payments (no real money is involved).  
-It demonstrates a full web-based architecture with backend, frontend, integrated games, and a database.
+## 💡 Resumen del Proyecto
 
----
+Plexios Casino es una **demostración educativa** de un casino en línea diseñada para showcasing de arquitectura web completa. Este proyecto *no* utiliza dinero real; simula pagos y transacciones con **Stripe en modo de prueba**.
 
-## Technologies / Stack
+Incluye tres juegos principales, integrados mediante tecnología **Godot Web**:
 
-**Backend**
-- Python 3.11+
-- FastAPI
-- ASGI server: Uvicorn / Gunicorn
-- Database: SQLite (local development) / PostgreSQL (server)
-- JWT authentication for user login
-- Stripe API (test mode)
-- Dependencies: `fastapi`, `uvicorn`, `sqlalchemy` / `tortoise-orm`, `python-dotenv`, `stripe`
-
-**Frontend**
-- React
-- TailwindCSS
-- Integration with Godot Web games via `<iframe>` or `<canvas>`
-- API calls via `fetch` or `axios`
-
-**Games**
-- Godot 4 exported to HTML5 / WebAssembly
-- Each game in its own folder: `slot/`, `roulette/`, `blackjack/`
-- Communicates with backend to update credits and register bets
-
-**Hosting / Deployment**
-- Oracle Cloud
-- Backend served with Gunicorn + Uvicorn behind Nginx
-- HTTPS via Let’s Encrypt
+| 🃏 Juegos Disponibles |
+| :---: |
+| **Slot** 🎰 |
+| **Roulette** 🎡 |
+| **Blackjack** ♠️ |
 
 ---
 
-## Database Design
+## 🚀 Pila Tecnológica / Stack
 
-### Users
-| Field | Type | Description |
-|-------|------|------------|
-| id | SERIAL / PK | Unique user ID |
-| username | VARCHAR(50) | Unique username |
-| email | VARCHAR(100) | Unique email |
-| password_hash | VARCHAR(255) | Hashed password |
-| credits | NUMERIC(10,2) | Virtual balance |
-| created_at | TIMESTAMP | Registration date |
-| last_login | TIMESTAMP | Last login |
+Una arquitectura **Full-Stack** robusta que combina rendimiento y modernidad.
 
-### Games
-| Field | Type | Description |
-|-------|------|------------|
-| id | SERIAL / PK | Unique game ID |
-| name | VARCHAR(50) | Game name |
-| type | VARCHAR(20) | slot, roulette, blackjack |
-| created_at | TIMESTAMP | Creation date |
+### ⚙️ Backend & API
 
-### Bets
-| Field | Type | Description |
-|-------|------|------------|
-| id | SERIAL / PK | Unique bet ID |
-| user_id | INT / FK → Users(id) | User placing the bet |
-| game_id | INT / FK → Games(id) | Game played |
-| bet_amount | NUMERIC(10,2) | Amount bet |
-| win_amount | NUMERIC(10,2) | Amount won (0 if lost) |
-| outcome | VARCHAR(20) | win / loss / draw |
-| created_at | TIMESTAMP | Timestamp of the bet |
+| Componente | Descripción | Detalles |
+| :--- | :--- | :--- |
+| **Lenguaje** | Python 3.11+ | [![Python](https://img.shields.io/badge/Python-3.11+-3670A0?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/) |
+| **Framework** | FastAPI | [![FastAPI](https://img.shields.io/badge/FastAPI-API-009688?style=for-the-badge&logo=fastapi)](https://fastapi.tiangolo.com/) |
+| **Base de Datos** | SQLite / PostgreSQL | [![Database](https://img.shields.io/badge/DB-PostgreSQL-336791?style=for-the-badge&logo=postgresql&logoColor=white)](https://www.postgresql.org/) |
+| **Servidor ASGI** | Uvicorn / Gunicorn | Alto rendimiento para producción. |
+| **Pagos** | Stripe API | Solo **modo de prueba** (`test mode`). |
 
-### Payments
-| Field | Type | Description |
-|-------|------|------------|
-| id | SERIAL / PK | Unique payment ID |
-| user_id | INT / FK → Users(id) | User making the payment |
-| amount | NUMERIC(10,2) | Credits added |
-| stripe_payment_id | VARCHAR(100) | Stripe test payment ID |
-| status | VARCHAR(20) | succeeded / failed |
-| created_at | TIMESTAMP | Timestamp of payment |
+> **Dependencias Clave:** `fastapi`, `uvicorn`, `sqlalchemy` / `tortoise-orm`, `python-dotenv`, `stripe`.
 
-> Optional: Transactions log table can be added to record **any change in credits**, simulating a professional casino audit trail.
+### 💻 Frontend & UI
+
+| Componente | Descripción | Detalles |
+| :--- | :--- | :--- |
+| **Librería** | React | [![React](https://img.shields.io/badge/React-UI-61DAFB?style=for-the-badge&logo=react&logoColor=white)](https://react.dev/) |
+| **Estilos** | TailwindCSS | [![TailwindCSS](https://img.shields.io/badge/TailwindCSS-Styles-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white)](https://tailwindcss.com/) |
+| **Juegos** | Godot Engine 4 | [![Godot](https://img.shields.io/badge/Godot-Games-478CBF?style=for-the-badge&logo=godot-engine&logoColor=white)](https://godotengine.org/) |
+
+### 🌐 Hosting / Despliegue
+
+| Componente | Detalles |
+| :--- | :--- |
+| **Proveedor** | Oracle Cloud |
+| **Reverse Proxy** | Nginx |
+| **Seguridad (HTTPS)** | Let’s Encrypt |
 
 ---
 
-## Features
-- User registration & login  
-- Virtual credits system  
-- Play Slot, Roulette, and Blackjack  
-- Stripe test payment integration  
-- Track every bet and result individually  
-- Expandable to add new games in the future  
+## 💾 Diseño de Base de Datos
+
+Utilizamos **SQLite** para desarrollo local y **PostgreSQL** para el entorno de servidor. El diseño se centra en la auditoría y la gestión de la economía virtual del casino.
+
+### Entidad: `Users` (Usuarios) 👤
+
+| Campo | Tipo | Descripción |
+| :--- | :--- | :--- |
+| `id` | SERIAL / **PK** | ID de usuario único |
+| `username` | VARCHAR(50) | Nombre de usuario (Único) |
+| `email` | VARCHAR(100) | Email (Único) |
+| `password_hash` | VARCHAR(255) | Contraseña hasheada |
+| `credits` | NUMERIC(10,2) | **Saldo virtual actual** |
+| `created_at` | TIMESTAMP | Fecha de registro |
+| `last_login` | TIMESTAMP | Último inicio de sesión |
+
+### Entidad: `Games` (Juegos) 🕹️
+
+| Campo | Tipo | Descripción |
+| :--- | :--- | :--- |
+| `id` | SERIAL / **PK** | ID de juego único |
+| `name` | VARCHAR(50) | Nombre del juego |
+| `type` | VARCHAR(20) | `slot` / `roulette` / `blackjack` |
+| `created_at` | TIMESTAMP | Fecha de creación del registro del juego |
+
+### Entidad: `Bets` (Apuestas) 💰
+
+| Campo | Tipo | Descripción |
+| :--- | :--- | :--- |
+| `id` | SERIAL / **PK** | ID de apuesta única |
+| `user_id` | INT / **FK** | Referencia al ID del usuario |
+| `game_id` | INT / **FK** | Referencia al ID del juego |
+| `bet_amount` | NUMERIC(10,2) | Cantidad apostada |
+| `win_amount` | NUMERIC(10,2) | Cantidad ganada (0 si se pierde) |
+| `outcome` | VARCHAR(20) | Resultado: `win` / `loss` / `draw` |
+| `created_at` | TIMESTAMP | Marca de tiempo de la apuesta |
+
+### Entidad: `Payments` (Pagos) 💳
+
+| Campo | Tipo | Descripción |
+| :--- | :--- | :--- |
+| `id` | SERIAL / **PK** | ID de pago único |
+| `user_id` | INT / **FK** | Referencia al ID del usuario |
+| `amount` | NUMERIC(10,2) | Créditos añadidos |
+| `stripe_payment_id` | VARCHAR(100) | ID de pago de Stripe (Test Mode) |
+| `status` | VARCHAR(20) | Estado: `succeeded` / `failed` |
+| `created_at` | TIMESTAMP | Marca de tiempo del pago |
+
+> 📌 **Nota:** Se puede añadir una tabla de registro de transacciones (*Transactions log*) para registrar **cualquier cambio en los créditos**, simulando una pista de auditoría profesional.
 
 ---
 
-## Setup / Installation
+## ✨ Características Principales
 
-1. Clone the repository:
+* ✅ **Sistema Completo:** Registro de usuarios y gestión de inicio de sesión (`login`).
+* 💰 **Economía Virtual:** Sistema de créditos virtuales.
+* 🎮 **Juegos Integrados:** Juega a **Slot**, **Roulette** y **Blackjack**.
+* 💳 **Simulación de Pagos:** Integración con **Stripe en modo de prueba** para recarga de créditos.
+* 📊 **Registro Detallado:** Trazabilidad individual de cada apuesta y resultado.
+* 🔧 **Diseño Escalable:** Fácilmente expandible para añadir nuevos juegos en el futuro.
+
+---
+
+## 🛠️ Configuración / Instalación
+
+1. Clona el repositorio:
+
 ```bash
-git clone https://github.com/Abentfork/proyecto-final.git
+git clone [https://github.com/Abentfork/proyecto-final.git](https://github.com/Abentfork/proyecto-final.git)
+cd proyecto-final
