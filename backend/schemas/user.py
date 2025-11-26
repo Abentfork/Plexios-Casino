@@ -2,6 +2,8 @@ from datetime import datetime
 from typing import Optional
 from pydantic import BaseModel
 
+#API Schemas of User Class
+
 class UserCreate(BaseModel):
     username: str
     email: str

@@ -12,7 +12,7 @@ class Users(Base):
     email = mapped_column(String(100), nullable=False, unique=True)
     password_hash = mapped_column(String(255), nullable=False)
     credits = mapped_column(Numeric(10,2), default=0)
-    created_at = mapped_column(DateTime, default=datetime.now)
+    created_at = mapped_column(DateTime, default=datetime.utcnow)
     last_login = mapped_column(DateTime, nullable=True)
     
     # Relations for easy consults
